@@ -4,8 +4,11 @@ import os
 import requests
 import json
 import base64
-import openai
+from openai import OpenAI
 from dotenv import load_dotenv
+
+# Must be the first Streamlit command
+st.set_page_config(page_title="Claire Namusoke — Portfolio", layout="wide")
 
 load_dotenv()
 
@@ -16,8 +19,6 @@ ELEVEN_API_KEY = os.getenv("ELEVEN_API_KEY")
 ELEVEN_VOICE_ID = os.getenv("ELEVEN_VOICE_ID")  
 CV_FILEPATH = "assets/Claire_CV.pdf"
 PROJECTS_FILE = "assets/projects.json"
-
-openai.api_key = OPENAI_API_KEY
 
 # ---------- STYLING ----------
 st.markdown("""
@@ -38,8 +39,6 @@ st.markdown("""
     }
 </style>
 """, unsafe_allow_html=True)
-
-st.set_page_config(page_title="Claire Namusoke — Portfolio", layout="wide")
 
 # ---------- Helpers ----------
 def load_projects():
@@ -65,7 +64,7 @@ def add_chat_message(role, text):
 
 def openai_chat_completion(system_prompt, messages, model=OPENAI_MODEL):
     try:
-        client = openai.OpenAI(api_key=OPENAI_API_KEY)
+        client = OpenAI(api_key=OPENAI_API_KEY)
         resp = client.chat.completions.create(
             model=model,
             messages=[{"role":"system","content":system_prompt}] + messages,
@@ -93,8 +92,34 @@ def eleven_tts_generate(text):
         st.error(f"TTS Exception: {e}")
         return None
 
+def transcribe_audio(audio_bytes):
+    """Transcribe audio using OpenAI Whisper API"""
+    if not OPENAI_API_KEY:
+        return None
+    try:
+        client = OpenAI(api_key=OPENAI_API_KEY)
+        # Save audio bytes to a temporary file
+        import tempfile
+        with tempfile.NamedTemporaryFile(delete=False, suffix=".wav") as tmp_file:
+            tmp_file.write(audio_bytes)
+            tmp_file_path = tmp_file.name
+        
+        # Transcribe using Whisper
+        with open(tmp_file_path, "rb") as audio_file:
+            transcript = client.audio.transcriptions.create(
+                model="whisper-1",
+                file=audio_file
+            )
+        
+        # Clean up temp file
+        os.unlink(tmp_file_path)
+        return transcript.text
+    except Exception as e:
+        st.error(f"Transcription error: {e}")
+        return None
+
 # ---------- Navigation ----------
-page = st.radio("", ["About","Projects","AI Chatbot","Voice Chat"], horizontal=True)
+page = st.radio("Navigation", ["About","Projects","AI Chatbot","Voice Chat"], horizontal=True, label_visibility="collapsed")
 
 # ---------- About ----------
 if page == "About":
@@ -223,7 +248,17 @@ elif page == "AI Chatbot":
             faq_data = json.load(f)
             faq_text = json.dumps(faq_data, indent=2)
     
-    system_prompt = "You are Claire's interview assistant. Answer concisely and professionally. Use CV and project info if needed."
+    system_prompt = """You are Claire Namusoke's interview assistant. Answer questions about Claire professionally and concisely.
+
+IMPORTANT INSTRUCTIONS:
+- When users ask questions, understand the INTENT and MEANING, not just exact wording
+- Match user questions to similar questions in the FAQ data semantically
+- For example: "What do you want to achieve?" should match "What are your career goals?"
+- "Why analytics?" should match "Why did you choose data analytics?"
+- "Tell me about yourself" should use information from the CV and custom Q&A
+- Always prioritize answers from the FAQ/custom_qa section when available
+- Use CV and project information to supplement your answers
+- Be conversational but professional"""
 
     if "messages" not in st.session_state:
         st.session_state.messages = []
@@ -234,7 +269,11 @@ elif page == "AI Chatbot":
         else:
             st.markdown(f"**Assistant:** {m['content']}")
 
-    prompt = st.text_input("Ask a question about Claire:", key="chat_input")
+    # Voice input option
+    st.write("**Ask via text or voice:**")
+    audio_input = st.audio_input("Record your question")
+    
+    prompt = st.text_input("Or type your question:", key="chat_input")
     col1, col2 = st.columns([3, 1])
     with col1:
         send_btn = st.button("Send", key="send_btn")
@@ -245,6 +284,21 @@ elif page == "AI Chatbot":
         st.session_state.messages = []
         st.rerun()
     
+    # Handle voice input
+    if audio_input is not None:
+        with st.spinner("Transcribing your question..."):
+            user_msg = transcribe_audio(audio_input.getvalue())
+        if user_msg:
+            st.success(f"You asked: {user_msg}")
+            add_chat_message("user", user_msg)
+            context_text = "\n\n".join([cv_text[:4000], projects_text[:3000], faq_text[:2000]])
+            messages_for_openai = [{"role":"user","content": f"Context:\n{context_text}\n\nQuestion: {user_msg}"}]
+            with st.spinner("Thinking..."):
+                answer = openai_chat_completion(system_prompt, messages_for_openai)
+            add_chat_message("assistant", answer)
+            st.rerun()
+    
+    # Handle text input
     if send_btn:
         user_msg = prompt.strip()
         if user_msg:
@@ -262,8 +316,8 @@ elif page == "AI Chatbot":
 
 # ---------- Voice Chat ----------
 elif page == "Voice Chat":
-    st.header("Voice Interview Practice")
-    st.write("Type a question to get a spoken answer.")
+    st.header("🎙️ Voice Interview Practice")
+    st.write("Ask questions via voice or text and get spoken answers.")
 
     # Load context (CV + projects)
     cv_text = ""
@@ -272,21 +326,53 @@ elif page == "Voice Chat":
             cv_text = f.read()
     projects_text = "\n".join([f"{p['title']}: {p['description']}" for p in load_projects()])
     
-    q = st.text_input("Question:")
-    if st.button("Get Spoken Answer"):
+    # Voice or text input
+    st.subheader("📝 Option 1: Record Your Question")
+    st.info("👇 Click the microphone button below to start recording your question")
+    audio_input = st.audio_input("🎤 Click to record")
+    
+    st.markdown("---")
+    st.subheader("⌨️ Option 2: Type Your Question")
+    q = st.text_input("Type your question here:")
+    
+    if st.button("🔊 Get Spoken Answer", type="primary"):
         if not OPENAI_API_KEY:
             st.error("OPENAI_API_KEY not set.")
         else:
-            context_text = "\n\n".join([cv_text[:4000], projects_text[:3000]])
-            question_with_context = f"Context about Claire Namusoke:\n{context_text}\n\nQuestion: {q}"
-            system_prompt = "You are Claire Namusoke's voice assistant. Answer concisely and professionally using the provided CV and project information."
-            with st.spinner("Generating audio response..."):
-                ans = openai_chat_completion(system_prompt, [{"role":"user","content":question_with_context}])
-                audio = eleven_tts_generate(ans)
-            if audio:
-                st.audio(audio, format="audio/mpeg", autoplay=True)
+            # Determine the question source
+            question = None
+            if audio_input is not None:
+                with st.spinner("Transcribing your question..."):
+                    question = transcribe_audio(audio_input.getvalue())
+                if question:
+                    st.success(f"You asked: {question}")
+            elif q.strip():
+                question = q.strip()
+            
+            if question:
+                # Load FAQ for voice chat too
+                faq_text = ""
+                if os.path.exists("assets/faq.json"):
+                    with open("assets/faq.json", "r", encoding="utf-8") as f:
+                        faq_data = json.load(f)
+                        faq_text = json.dumps(faq_data, indent=2)
+                
+                context_text = "\n\n".join([cv_text[:4000], projects_text[:3000], faq_text[:2000]])
+                question_with_context = f"Context about Claire Namusoke:\n{context_text}\n\nQuestion: {question}"
+                system_prompt = """You are Claire Namusoke's voice assistant. Answer questions professionally and concisely.
+
+IMPORTANT: Match user questions to similar questions in the FAQ data semantically, not just by exact wording.
+Use the provided CV, project information, and FAQ responses to give accurate answers."""
+                with st.spinner("Generating audio response..."):
+                    ans = openai_chat_completion(system_prompt, [{"role":"user","content":question_with_context}])
+                    st.write(f"**Answer:** {ans}")
+                    audio = eleven_tts_generate(ans)
+                if audio:
+                    st.audio(audio, format="audio/mpeg", autoplay=True)
+                else:
+                    st.info("TTS not configured. Set ELEVEN_API_KEY and ELEVEN_VOICE_ID.")
             else:
-                st.info("TTS not configured. Set ELEVEN_API_KEY and ELEVEN_VOICE_ID.")
+                st.warning("Please record or type a question first.")
 
 st.markdown("<hr>", unsafe_allow_html=True)
 st.caption("Made with Streamlit • Claire Namusoke")
