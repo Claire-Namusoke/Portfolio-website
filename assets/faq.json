@@ -1,0 +1,25 @@
+{
+  "additional_info": {
+    "career_goals": "Your career goals here",
+    "why_data_analytics": "Why you chose this field",
+    "work_style": "How you approach problems",
+    "achievements": "Notable achievements not in CV",
+    "future_plans": "Where you see yourself in 5 years",
+    "strengths": "Your key strengths",
+    "challenges_overcome": "Challenges you've faced and overcome"
+  },
+  "custom_qa": [
+    {
+      "question": "Why did you choose data analytics?",
+      "answer": "Your answer here"
+    },
+    {
+      "question": "What are your career goals?",
+      "answer": "Your answer here"
+    },
+    {
+      "question": "What's your work style?",
+      "answer": "Your answer here"
+    }
+  ]
+}

@@ -1,0 +1,61 @@
+CLAIRE NAMUSOKE
+STUDENT
+
+
+
+DETAILS	
+Bremerhaven, Germany
++4917626044083
+clairenamusoke1 @gmail.com
+
+LINKS
+Power Bi GitHub LinkedIn
+Stream lit
+
+TECHNICAL SKILLS 
+MS Office Power Bi
+Python
+SQL
+Git
+
+
+SOFT SKILLS
+Analytical thinking Attention to details Ability to work in multicultural teams.
+
+Strong communication
+
+
+LANGUAGES
+German – B2
+English – C1  
+
+
+
+PROFILEI am an enthusiastic and initiative-taking student currently pursuing a degree in International Shipping and Chartering with a keen interest in data and analytics. My strong interest in data driven development is complemented by background knowledge in personal data analysis projects, allowing me to ensure efficient data flow and create insightful dashboards. This experience has enabled me to leverage data for actionable insights and foster a deeper understanding of business intelligence environments 
+EXPERIENCESupply Chain Analyst	Blue Water Breb, Cuxhaven       Jan 2024 - July 2024
+Supported the Logistics team with data integration, validation, and monitoring of supply chain systems.
+Collaborated with Agency staff to align analytics findings with day-to-day freight forwarding operations. Supported in management, planning, and optimization of organization processes.EDUCATION
+International Shipping and Chartering	Hochschule Bremen	Germany 2023 — Present
+Uganda Advanced Certificate of Education K. Garden Groove College	Uganda 2016 — 2017
+PERSONAL PROJECTS
+Shipping’s Impact on Climate and Sea Levels
+Extracted and merged multi-source datasets using Python (Pandas, Requests), followed by exploratory and in-depth analysis to uncover key insights.
+Built an interactive Stream lit dashboard to visualize metrics and integrated the OpenAI API for smart, natural-language insights.
+Version-controlled the entire project and published the full codebase and documentation on GitHub
+ 
+Global Crude Oil Trade 
+ Cleaned and prepared raw data using python to ensure accuracy and structure for analysis.
+ Conducted data analysis and developed an interactive dashboard using stream lit.
+ Integrated OpenAI to provide enhanced insights and improve interpretability of the dashboard.
+Published the project on GitHub for version control and code documentation.
+
+Covid 19 
+ Used SQL to clean, query, and transform raw data into structured tables and prepare the data for analysis.
+Used Dax to build custom measures and compute KPIs to enhance analytical depth of the report.
+ Ensured an efficient data flow to support data integration and visualization and created insightful reports using power Bi tools.
+
+
+
+COURSES AND CERTIFICATIONSSupply Chain management and Analytics	Coursera Introduction to Data Analytics	Coursera
+SQL	Udemy
+Power Bi	Udemy
