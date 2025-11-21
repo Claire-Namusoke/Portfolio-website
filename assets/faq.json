@@ -1,25 +1,39 @@
 {
   "additional_info": {
-    "career_goals": "Your career goals here",
-    "why_data_analytics": "Why you chose this field",
-    "work_style": "How you approach problems",
-    "achievements": "Notable achievements not in CV",
-    "future_plans": "Where you see yourself in 5 years",
-    "strengths": "Your key strengths",
-    "challenges_overcome": "Challenges you've faced and overcome"
+    "career_goals": "My career goal is to grow a data-driven profession able to solve real-world problems, support better decisions, and contribute to meaningful progress. I am particularly passionate about the shipping industry and its impact on climate change, but I do not limit myself to only working with shipping companies. Data is everywhere, and I am open to working with any organization that values data-driven decision making.",
+    "achievements": "Transitioning from a non-technical background into data analytics through self-learning alongside my university studies. Successfully curated LinkedIn posts about my projects with descriptions that clearly communicate my work to a broader audience, resulting in feedback and professional connections.",
+    "future_plans": "I see myself growing into a role where I can lead projects, mentor others, and continue developing advanced analytics skills.",
+    "strengths": "One of my key strengths is that I am detail-oriented, which helps me to ensure accuracy in dashboards. Furthermore, I am analytical in thinking, which helps me to deal with complex data and produce meaningful insights in an understandable manner.",
+    "challenges_overcome": "The biggest challenge I faced was transitioning from a non-technical background into data analytics. To overcome this, I dedicated myself to learning programming languages like Python and tools like Power BI through online courses and practical projects. I also sought mentorship from experienced professionals in the field, which helped me gain confidence and improve my skills rapidly. I also faced a challenge of working with incomplete and messy datasets. To tackle this, I developed strong data cleaning and preprocessing skills, ensuring that I could extract valuable insights even from less-than-ideal data sources."
   },
   "custom_qa": [
     {
       "question": "Why did you choose data analytics?",
-      "answer": "Your answer here"
+      "answer": "Data analytics appealed to me because it combines technical expertise with practical impact. In a world where data is everywhere, I wanted to be able to make sense of it and use it to inform decisions. Coming from the shipping industry, I saw how analytics could transform raw operational and market data—such as vessel movements, charter rates, and global trade flows—into insights that drive smarter strategies and efficiency."
     },
     {
       "question": "What are your career goals?",
-      "answer": "Your answer here"
+      "answer": "My career goal is to grow a data-driven profession able to solve real-world problems, support better decisions, and contribute to meaningful progress. I am particularly passionate about the shipping industry and its impact on climate change, but I do not limit myself to only working with shipping companies. Data is everywhere, and I am open to working with any organization that values data-driven decision making."
     },
     {
       "question": "What's your work style?",
-      "answer": "Your answer here"
+      "answer": "I strive to be organized and detail-oriented in my work style. I believe in a systematic approach to problem-solving, breaking down complex issues into manageable parts. I prioritize clear communication and collaboration with team members to ensure that everyone is aligned and working towards common goals. Additionally, I am adaptable and open to feedback, always looking for ways to improve my processes and deliver better results."
+    },
+    {
+      "question": "Who is Claire Namusoke?",
+      "answer": "I am a data analyst enthusiast and a student at Hochschule Bremen currently pursuing a Bachelor's Degree in International Shipping and Chartering, with a passion for transforming raw data into actionable insights. With a background in logistics and supply chain management, I bring a unique perspective to data analysis, particularly in the shipping industry. I have hands-on experience with tools like Python, Power BI, and Streamlit, and I enjoy working on projects that address real-world challenges. My goal is to leverage data to drive better decision-making and contribute to meaningful progress in any organization I work with."
+    },
+    {
+      "question": "What is the most interesting technology you have worked with?",
+      "answer": "The most interesting technology I have worked with is Streamlit, an open-source app framework for Machine Learning and Data Science projects. Streamlit allows me to quickly create and share interactive web applications directly from Python scripts. What makes it particularly fascinating is its simplicity and ease of use, enabling rapid prototyping and deployment of data-driven applications without requiring extensive web development knowledge. I have used Streamlit to build dashboards that visualize complex datasets, allowing users to interact with the data through filters, charts, and even AI-powered insights using OpenAI integration."
+    },
+    {
+      "question": "How much do you use AI in your projects?",
+      "answer": "I extensively use AI in my projects, particularly through the integration of OpenAI's language models. AI enhances my data analysis capabilities by enabling natural language processing, which allows users to interact with data using natural language. For instance, in my Streamlit dashboards, I incorporate AI features that let users ask questions about the data and receive insightful responses generated by the model. This not only makes the data more accessible but also provides a more intuitive way for users to explore complex datasets and gain deeper insights."
+    },
+    {
+      "question": "How does data analytics relate to your studies in shipping and chartering?",
+      "answer": "Data analytics is closely related to my studies in logistics and supply chain management as it provides the tools and techniques to analyze and interpret data relevant to these fields. In logistics, data analytics can be used to optimize routes, manage inventory, and improve delivery times. In supply chain management, it helps in demand forecasting, supplier performance evaluation, and risk management. By leveraging data analytics, I can make informed decisions that enhance efficiency, reduce costs, and improve overall supply chain performance."
     }
   ]
 }
