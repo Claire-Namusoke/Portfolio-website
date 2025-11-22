@@ -80,7 +80,14 @@ def eleven_tts_generate(text):
         return None
     url = f"https://api.elevenlabs.io/v1/text-to-speech/{ELEVEN_VOICE_ID}"
     headers = {"xi-api-key": ELEVEN_API_KEY, "Content-Type": "application/json"}
-    body = {"text": text, "model": "eleven_monolingual_v1"}
+    body = {
+        "text": text,
+        "model": "eleven_monolingual_v1",
+        "voice_settings": {
+            "stability": 0.7,
+            "similarity_boost": 0.8
+        }
+    }
     try:
         r = requests.post(url, json=body, headers=headers, timeout=30)
         if r.status_code == 200:
@@ -155,40 +162,41 @@ def add_chatbot_icon():
     """, unsafe_allow_html=True)
 
     st.markdown("<div class='unified-chat-widget'><div class='unified-chat-content'>", unsafe_allow_html=True)
-    st.markdown("### 💬 AI & Voice Assistant")
+    # Show small floating profile picture instead of 💬 icon
+    profile_img_html = ""
+    if os.path.exists("assets/profile.jpg"):
+        import base64
+        with open("assets/profile.jpg", "rb") as img_file:
+            img_data = base64.b64encode(img_file.read()).decode()
+        profile_img_html = f"<img src='data:image/jpeg;base64,{img_data}' alt='Profile' style='width:36px;height:36px;border-radius:50%;margin-right:8px;vertical-align:middle;border:2px solid #58a6ff;box-shadow:0 0 8px #58a6ff;'>"
+    st.markdown(f"### {profile_img_html} Talk To Claire", unsafe_allow_html=True)
 
     # User chooses response type
     response_type = st.session_state.get("response_type_radio")
 
     # Display messages
     if response_type == "Speech only":
-        # Only play the latest assistant speech response ONCE per new message
-        if "last_played_audio_idx" not in st.session_state:
-            st.session_state.last_played_audio_idx = None
-        # Find the latest assistant message with audio
+        # Only play the latest assistant speech response, no text
+        warning_shown = False
         for i, msg in enumerate(reversed(st.session_state.chat_messages)):
             if msg.get("role") == "assistant":
                 audio_bytes = msg.get("audio")
-                # Use a unique index for the message (from the end)
-                msg_idx = len(st.session_state.chat_messages) - 1 - i
                 if audio_bytes:
-                    # Only play if not already played
-                    if st.session_state.last_played_audio_idx != msg_idx:
-                        import base64
-                        b64_audio = base64.b64encode(audio_bytes).decode()
-                        st.markdown(f"""
-                        <audio id='ai_audio_{msg_idx}' src='data:audio/wav;base64,{b64_audio}' autoplay>
-                            Your browser does not support the audio element.
-                        </audio>
-                        <script>
-                        var audio = document.getElementById('ai_audio_{msg_idx}');
-                        if (audio) {{ audio.play(); }}
-                        </script>
-                        """, unsafe_allow_html=True)
-                        st.session_state.last_played_audio_idx = msg_idx
-                    # If already played, do not replay
+                    import base64
+                    b64_audio = base64.b64encode(audio_bytes).decode()
+                    st.markdown(f"""
+                    <audio id='ai_audio_{i}' src='data:audio/wav;base64,{b64_audio}' autoplay>
+                        Your browser does not support the audio element.
+                    </audio>
+                    <script>
+                    var audio = document.getElementById('ai_audio_{i}');
+                    if (audio) {{ audio.play(); }}
+                    </script>
+                    """, unsafe_allow_html=True)
                 else:
+                    # Show visible warning if no audio generated
                     st.warning("No audio was generated for the last response. Please check your ElevenLabs API settings or try again.")
+                    warning_shown = True
                 break
     else:
         for i, msg in enumerate(st.session_state.chat_messages):
@@ -218,7 +226,7 @@ def add_chatbot_icon():
 
     # User chooses response type
     response_type = st.radio(
-        "Choose AI response type:",
+        "Choose response type:",
         ["Text only", "Speech only", "Text & Speech"],
         index=0,
         horizontal=True,
@@ -226,10 +234,14 @@ def add_chatbot_icon():
     )
 
     # Text input
-    user_msg = st.text_input("Type your question...", key="chat_input")
-    # Only text input and response
-    if st.button("Send", key="chat_send"):
-        if user_msg.strip():
+    user_msg = st.text_input("Type your question...", key="chat_input", on_change=None)
+    # Send message when Enter is pressed (Streamlit reruns on input change)
+    if user_msg.strip():
+        # Prevent duplicate sends by checking last user message
+        last_user_msg = next((m for m in reversed(st.session_state.chat_messages) if m["role"] == "user"), None)
+        last_assistant_msg = next((m for m in reversed(st.session_state.chat_messages) if m["role"] == "assistant"), None)
+        # Only respond if this user_msg hasn't already received an assistant reply
+        if not last_user_msg or last_user_msg["content"] != user_msg or not last_assistant_msg or last_assistant_msg.get("user_msg") != user_msg:
             st.session_state.chat_messages.append({"role": "user", "content": user_msg})
             # Load context
             cv_text = ""
@@ -253,20 +265,17 @@ def add_chatbot_icon():
             if api_key:
                 with st.spinner("Thinking..."):
                     answer = openai_chat_completion(system_prompt, [{"role":"user","content": f"Context:\n{context}\n\nQuestion: {user_msg}"}], model=OPENAI_MODEL)
-                # Handle response type
+                # Only append one assistant response, then rerun
                 if response_type == "Text only":
-                    st.session_state.chat_messages.append({"role": "assistant", "content": answer})
+                    st.session_state.chat_messages.append({"role": "assistant", "content": answer, "audio": None, "user_msg": user_msg})
                 elif response_type == "Speech only":
                     audio = eleven_tts_generate(answer)
-                    if audio:
-                        st.session_state.chat_messages.append({"role": "assistant", "content": "", "audio": audio})
-                    else:
-                        st.session_state.chat_messages.append({"role": "assistant", "content": "(No audio generated)", "audio": None})
+                    st.session_state.chat_messages.append({"role": "assistant", "content": None, "audio": audio if audio else None, "user_msg": user_msg})
                 elif response_type == "Text & Speech":
                     audio = eleven_tts_generate(answer)
-                    st.session_state.chat_messages.append({"role": "assistant", "content": answer, "audio": audio})
+                    st.session_state.chat_messages.append({"role": "assistant", "content": answer, "audio": audio if audio else None, "user_msg": user_msg})
             else:
-                st.session_state.chat_messages.append({"role": "assistant", "content": "API key not configured. Please check your .env file and restart the app."})
+                st.session_state.chat_messages.append({"role": "assistant", "content": "API key not configured. Please check your .env file and restart the app.", "audio": None, "user_msg": user_msg})
             st.rerun()
 
     st.markdown("</div></div>", unsafe_allow_html=True)
@@ -434,7 +443,6 @@ def show_ai_assistant():
             if send_btn and user_input.strip():
                 question = user_input.strip()
                 st.session_state.ai_messages.append({"role": "user", "content": question})
-                
                 if not OPENAI_API_KEY:
                     st.session_state.ai_messages.append({"role": "assistant", "content": "OpenAI API key not configured."})
                 else:
@@ -449,16 +457,12 @@ def show_ai_assistant():
                         with open("assets/faq.json", "r", encoding="utf-8") as f:
                             faq_data = json.load(f)
                             faq_text = json.dumps(faq_data, indent=2)
-                    
                     context_text = "\n\n".join([cv_text[:4000], projects_text[:3000], faq_text[:2000]])
-                    system_prompt = """You are Claire Namusoke's AI assistant. Answer questions professionally and concisely.
-Match user questions to FAQ data semantically. Prioritize FAQ answers when available."""
-                    
+                    system_prompt = """You are Claire Namusoke's AI assistant. Answer questions professionally and concisely.\nMatch user questions to FAQ data semantically. Prioritize FAQ answers when available."""
                     with st.spinner("Thinking..."):
                         answer = openai_chat_completion(system_prompt, [{"role":"user","content": f"Context:\n{context_text}\n\nQuestion: {question}"}])
-                    
+                    # Only append one assistant response, then rerun
                     st.session_state.ai_messages.append({"role": "assistant", "content": answer})
-                
                 st.rerun()
 
 # ---------- Navigation ----------
@@ -467,18 +471,15 @@ page = st.radio("Navigation", ["About","Projects"], horizontal=True, label_visib
 # ---------- About ----------
 if page == "About":
     st.header("Welcome to My Portfolio")
-    
     # Create columns for image and text
     col1, col2 = st.columns([1, 3])
-    
     with col1:
         if os.path.exists("assets/profile.jpg"):
             st.image("assets/profile.jpg", width=100)
         else:
             st.info("Profile image not found")
-    
     with col2:
-        about = """Hi,  I am a data analytics enthusiast and International Shipping and chartering student at Hochschule Bremen, 
+        about = """Hi,  I am Claire, a data analytics enthusiast and International Shipping and chartering student at Hochschule Bremen, 
              with practical experience in analyzing shipping data, environmental impacts, and 
              global trade trends. I specialize in transforming complex datasets into actionable 
              insights through SQL, Python, Power BI, and interactive dashboards, while integrating
@@ -486,7 +487,6 @@ if page == "About":
               Business environments to drive informed decision-making and sustainability initiatives.   
     """
         st.write(about)
-    
     st.markdown("""
     <div style='display: flex; gap: 30px; align-items: start;'>
         <div>
@@ -512,9 +512,7 @@ if page == "About":
         </div>
     </div>
     """, unsafe_allow_html=True)
-    
     st.subheader("Data Skills")
-    
     # Animated skill badges
     st.markdown("""
     <style>
@@ -547,14 +545,12 @@ if page == "About":
         <span class="skill-badge">💼 MS Office</span>
     </div>
     """, unsafe_allow_html=True)
-    
     st.subheader("Contact")
     st.markdown("- **LinkedIn:** [LinkedIn](https://www.linkedin.com/in/namusoke-claire-129711335)")
     st.markdown("- **GitHub:** [claire-namusoke](https://github.com/claire-namusoke)")
     st.markdown("- **Email:** clairenamusoke1@gmail.com")
     provide_cv_download()
-    
-    # Add floating chatbot icon
+    # Add bottom AI chat widget with options
     add_chatbot_icon()
 
 # ---------- Projects ----------
@@ -564,18 +560,16 @@ elif page == "Projects":
     if projects:
         for p in projects:
             st.subheader(f"🔗 [{p.get('title')}]({p.get('link')})")
-            st.write(p.get("description"))
-            
+            # Description is hidden in UI, but available for AI
+            # st.write(p.get("description"))
             # Display tools used
             if p.get("tools"):
                 tools_str = " • ".join(p.get("tools"))
                 st.markdown(f"<p style='color: #58a6ff;'><strong>Tools:</strong> {tools_str}</p>", unsafe_allow_html=True)
-            
             st.markdown("---")
     else:
         st.info("No projects found. Add them in assets/projects.json")
-    
-    # Add floating chatbot icon
+    # Add bottom AI chat widget with options
     add_chatbot_icon()
 
 st.markdown("<hr>", unsafe_allow_html=True)
