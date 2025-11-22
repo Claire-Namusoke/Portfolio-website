@@ -1,31 +1,31 @@
 [
   {
     "title": "Shipping Impact on Climate and Sea Levels",
-    "description": "Conducted data intergration across multiple datasets and analyzed how CO2 emissions from shipping contribute to climate change and rising sea levels and Interactive Streamlit dashboard with Ai section for detailed analysis.",
+    "description": "This project was an inspiration from my presentation in one of my course modules focused on understanding the impact of greenhouse gases emissions from human activities on climate and rising sea levels. Shipping alone accounts for approximately 3% of global greenhouse emissions where CO2 is used as the baseline for measuring the global warming potential of greenhouse gases due to its Global Warming Potential of 1 over all time horizons. Although the warming effect of CO2 per molecule is lower than that of gases like Methane, its significant atmospheric concentration and long atmospheric lifetime make it the primary driver of anthropogenic climate change. Hence the extended presence of CO2 in the atmosphere means that its emissions can influence the climate for centuries, highlighting the critical importance of addressing CO2 emissions within the transport sector to mitigate long-term climate impacts. Furthermore, I utilized real world data from different sources highlighting my skills in data integration.",
     "tools": ["Python", "Streamlit", "Pandas", "OpenAI"],
     "link": "https://claire-namusoke-climate-analysis-dashboard-xj1kim.streamlit.app/"
   },
   {
     "title": "Global Crude Oil Trade",
-    "description": "Analysed the the historical patterns of Crude oil Trade,showcasing how dominant exporters and importers became big players while setting a stage for deeper insights into global energy logistics. Built a Streamlit dashboard analyzing global crude oil trade using Python and OpenAI integration for smart and natural language  insights.",
+    "description": "The dashboard analyzes the historical patterns of Crude oil Trade, showcasing how dominant exporters and importers became big players while setting a stage for deeper insights into global energy logistics. Explore the structure, scale, and evolution of crude petroleum trade over nearly three decades offering a rare, longitudinal view into one of the world's most strategically vital commodities. I integrated AI to allow users to dive deeper into the data by asking questions in natural language and receiving insightful responses based on the data presented.",
     "tools": ["Python", "Streamlit", "Pandas", "OpenAI"],
     "link": "https://claire-namusoke-crude-oil-trade-crude-oil-zotgyj.streamlit.app/"
   },
   {
     "title": "COVID-19 Dashboard",
-    "description": "This project analyzes real-world COVID-19 data to uncover trends in infection rates, mortality, and recovery across different regions and time periods providing a comprehensive view of the pandemic's progression from 2020 to June 2025.",
+    "description": "This dashboard explores real-world COVID-19 data to uncover trends in infection rates, mortality, and recovery across different regions and time periods providing a comprehensive view of the pandemic's progression from 2020 to June 2025. It highlights 2021 as the year with the sharpest increase in death cases rising more than 80% from the previous year.",
     "tools": ["Power BI", "DAX", "Data Modeling"],
     "link": "https://app.powerbi.com/groups/me/reports/5c7f2d26-b647-45f7-800e-927d98f819b2/bf11137bdd4ccaded107?experience=power-bi"
   },
   {
     "title": "Afro Couture Sales Dashboard",
-    "description": "This Project provides a comprehensive analysis of Afro Couture Natural Salon sales performance in December 2023 with a focus on business performance, employee productivity, and customer satisfaction for that specific month since it is consiidered to be the busiest month of the year according to historical data.",
+    "description": "This Project provides a comprehensive analysis of Afro Couture Natural Salon sales performance in December 2023 with a focus on business performance, employee productivity, and customer satisfaction for that specific month since it is considered to be the busiest month of the year according to historical data. It furthermore creates a clear overview of revenue streams, popular services and client demographics helping the salon identify growth opportunities and optimise its services for better customer experience.",
     "tools": ["Power BI", "DAX", "SQL"],
     "link": "https://app.powerbi.com/groups/me/reports/d6dab1e9-af48-490f-aa27-a67a6d144323/49522f18059986be774b?experience=power-bi"
   },
   {
     "title": "Maven Sales Dashboard",
-    "description": " This project analyzes historical sales data for Maven Market (1997–1998), focusing on product performance and global store distribution. It visualizes key metrics such as revenue by product category, regional sales trends, and store presence across continents. The report provides insights into market penetration, product popularity, and geographic sales dynamics during the late 1990s",
+    "description": "This was my first dashboard and Power BI project which explored Maven Market’s sales data from 1997–1998, showcasing product categories and store locations. It marked the starting point of my analytics journey and strengthened my skills in Power BI. The project viewed historical sales data for Maven Market (1997–1998), focusing on product performance and global store distribution. It visualizes key metrics such as revenue by product category, regional sales trends, and store presence across continents. The report provides insights into market penetration, product popularity, and geographic sales dynamics during the late 1990s.",
     "tools": ["Power BI", "DAX", "Data Visualization"],
     "link": "https://app.powerbi.com/groups/me/reports/65ebd5ae-660a-4cb6-8324-4e46c3b10c16/f1149ff0aa97551b0709?experience=power-bi"
   }
