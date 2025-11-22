@@ -5,18 +5,15 @@ import requests
 import json
 import base64
 from openai import OpenAI
-from dotenv import load_dotenv
 
 # Must be the first Streamlit command
 st.set_page_config(page_title="Claire Namusoke — Portfolio", layout="wide")
 
-load_dotenv()
-
 # ---------- CONFIG ----------
-OPENAI_API_KEY = os.getenv("OPENAI_API_KEY")
-OPENAI_MODEL = os.getenv("OPENAI_MODEL", "gpt-4o-mini")  
-ELEVEN_API_KEY = os.getenv("ELEVEN_API_KEY") 
-ELEVEN_VOICE_ID = os.getenv("ELEVEN_VOICE_ID")  
+OPENAI_API_KEY = st.secrets.get("OPENAI_API_KEY")
+OPENAI_MODEL = st.secrets.get("OPENAI_MODEL", "gpt-4o-mini")  
+ELEVEN_API_KEY = st.secrets.get("ELEVEN_API_KEY") 
+ELEVEN_VOICE_ID = st.secrets.get("ELEVEN_VOICE_ID")  
 CV_FILEPATH = "assets/Claire_CV.pdf"
 PROJECTS_FILE = "assets/projects.json"
 
@@ -261,7 +258,7 @@ def add_chatbot_icon():
                 "If a question matches or relates to the FAQ, use the FAQ answer, but feel free to add a personal, sentimental touch. "
                 "If the FAQ does not cover the question, answer thoughtfully and helpfully.\n\nFAQ Data:\n" + faq_text
             )
-            api_key = os.getenv("OPENAI_API_KEY")
+            api_key = st.secrets.get("OPENAI_API_KEY")
             if api_key:
                 with st.spinner("Thinking..."):
                     answer = openai_chat_completion(system_prompt, [{"role":"user","content": f"Context:\n{context}\n\nQuestion: {user_msg}"}], model=OPENAI_MODEL)
@@ -275,8 +272,8 @@ def add_chatbot_icon():
                     audio = eleven_tts_generate(answer)
                     st.session_state.chat_messages.append({"role": "assistant", "content": answer, "audio": audio if audio else None, "user_msg": user_msg})
             else:
-                st.session_state.chat_messages.append({"role": "assistant", "content": "API key not configured. Please check your .env file and restart the app.", "audio": None, "user_msg": user_msg})
-            st.rerun()
+                st.session_state.chat_messages.append({"role": "assistant", "content": "API key not configured. Please check your Streamlit secrets file and restart the app.", "audio": None, "user_msg": user_msg})
+                st.rerun()
 
     st.markdown("</div></div>", unsafe_allow_html=True)
 
@@ -311,7 +308,7 @@ def show_ai_assistant():
         height: 70px;
         border-radius: 50%;
         border: 3px solid #58a6ff;
-        box-shadow: 0 0 20px rgba(88, 166, 255, 0.8);
+        box-shadow: 0 0 20px rgba(88,166,255,0.8);
         object-fit: cover;
     }
     .microphone-badge {
