@@ -129,6 +129,47 @@ def transcribe_audio(audio_bytes):
         st.error(f"Transcription error: {e}")
         return None
 
+def process_user_message():
+    user_msg = st.session_state.chat_input.strip()
+    if not user_msg:
+        return
+    response_type = st.session_state.get("response_type_radio", "Text only")
+    st.session_state.chat_messages.append({"role": "user", "content": user_msg})
+    # Load context
+    cv_text = ""
+    if os.path.exists("assets/cv.txt"):
+        with open("assets/cv.txt","r",encoding="utf-8", errors="ignore") as f:
+            cv_text = f.read()
+    projects_text = "\n".join([f"{p['title']}: {p['description']}" for p in load_projects()])
+    faq_text = ""
+    if os.path.exists("assets/faq.json"):
+        with open("assets/faq.json", "r", encoding="utf-8") as f:
+            faq_data = json.load(f)
+            faq_text = json.dumps(faq_data, indent=2)
+    context = "\n\n".join([cv_text[:4000], projects_text[:3000], faq_text[:2000]])
+    system_prompt = (
+        "You are Claire's AI assistant. Respond with warmth, empathy, and a positive tone. "
+        "Always consider the FAQ data provided below and use it to answer questions when relevant. "
+        "If a question matches or relates to the FAQ, use the FAQ answer, but feel free to add a personal, sentimental touch. "
+        "If the FAQ does not cover the question, answer thoughtfully and helpfully.\n\nFAQ Data:\n" + faq_text
+    )
+    api_key = st.secrets.get("OPENAI_API_KEY")
+    if api_key:
+        with st.spinner("Thinking..."):
+            answer = openai_chat_completion(system_prompt, [{"role":"user","content": f"Context:\n{context}\n\nQuestion: {user_msg}"}], model=OPENAI_MODEL)
+        if response_type == "Text only":
+            st.session_state.chat_messages.append({"role": "assistant", "content": answer, "audio": None, "user_msg": user_msg})
+        elif response_type == "Speech only":
+            audio = eleven_tts_generate(answer)
+            st.session_state.chat_messages.append({"role": "assistant", "content": None, "audio": audio if audio else None, "user_msg": user_msg})
+        elif response_type == "Text & Speech":
+            audio = eleven_tts_generate(answer)
+            # Always set content to answer, even if audio is None
+            st.session_state.chat_messages.append({"role": "assistant", "content": answer, "audio": audio, "user_msg": user_msg})
+    else:
+        st.session_state.chat_messages.append({"role": "assistant", "content": "API key not configured. Please check your Streamlit secrets file and restart the app.", "audio": None, "user_msg": user_msg})
+    st.session_state.chat_input = ""  # Clear input after processing
+
 def add_chatbot_icon():
     """Add floating chatbot icon in bottom corner"""
     if 'show_chat' not in st.session_state:
@@ -200,7 +241,7 @@ def add_chatbot_icon():
             if msg["role"] == "user":
                 st.markdown(f"**You:** {msg['content']}")
             else:
-                st.markdown(f"**AI:** {msg['content']}")
+                st.markdown(f"**Claire:** {msg['content']}")
                 if msg.get("audio"):
                     import base64
                     audio_bytes = msg["audio"]
@@ -230,51 +271,12 @@ def add_chatbot_icon():
         key="response_type_radio"
     )
 
-    # Text input
-    user_msg = st.text_input("Type your question...", key="chat_input", on_change=None)
-    # Send message when Enter is pressed (Streamlit reruns on input change)
-    if user_msg.strip():
-        # Prevent duplicate sends by checking last user message
-        last_user_msg = next((m for m in reversed(st.session_state.chat_messages) if m["role"] == "user"), None)
-        last_assistant_msg = next((m for m in reversed(st.session_state.chat_messages) if m["role"] == "assistant"), None)
-        # Only respond if this user_msg hasn't already received an assistant reply
-        if not last_user_msg or last_user_msg["content"] != user_msg or not last_assistant_msg or last_assistant_msg.get("user_msg") != user_msg:
-            st.session_state.chat_messages.append({"role": "user", "content": user_msg})
-            # Load context
-            cv_text = ""
-            if os.path.exists("assets/cv.txt"):
-                with open("assets/cv.txt","r",encoding="utf-8", errors="ignore") as f:
-                    cv_text = f.read()
-            projects_text = "\n".join([f"{p['title']}: {p['description']}" for p in load_projects()])
-            faq_text = ""
-            if os.path.exists("assets/faq.json"):
-                with open("assets/faq.json", "r", encoding="utf-8") as f:
-                    faq_data = json.load(f)
-                    faq_text = json.dumps(faq_data, indent=2)
-            context = "\n\n".join([cv_text[:4000], projects_text[:3000], faq_text[:2000]])
-            system_prompt = (
-                "You are Claire's AI assistant. Respond with warmth, empathy, and a positive tone. "
-                "Always consider the FAQ data provided below and use it to answer questions when relevant. "
-                "If a question matches or relates to the FAQ, use the FAQ answer, but feel free to add a personal, sentimental touch. "
-                "If the FAQ does not cover the question, answer thoughtfully and helpfully.\n\nFAQ Data:\n" + faq_text
-            )
-            api_key = st.secrets.get("OPENAI_API_KEY")
-            if api_key:
-                with st.spinner("Thinking..."):
-                    answer = openai_chat_completion(system_prompt, [{"role":"user","content": f"Context:\n{context}\n\nQuestion: {user_msg}"}], model=OPENAI_MODEL)
-                # Only append one assistant response, then rerun
-                if response_type == "Text only":
-                    st.session_state.chat_messages.append({"role": "assistant", "content": answer, "audio": None, "user_msg": user_msg})
-                elif response_type == "Speech only":
-                    audio = eleven_tts_generate(answer)
-                    st.session_state.chat_messages.append({"role": "assistant", "content": None, "audio": audio if audio else None, "user_msg": user_msg})
-                elif response_type == "Text & Speech":
-                    audio = eleven_tts_generate(answer)
-                    st.session_state.chat_messages.append({"role": "assistant", "content": answer, "audio": audio if audio else None, "user_msg": user_msg})
-            else:
-                st.session_state.chat_messages.append({"role": "assistant", "content": "API key not configured. Please check your Streamlit secrets file and restart the app.", "audio": None, "user_msg": user_msg})
-                st.rerun()
-
+    # Text input with callback for immediate processing
+    st.text_input(
+        "Type your question...",
+        key="chat_input",
+        on_change=process_user_message
+    )
     st.markdown("</div></div>", unsafe_allow_html=True)
 
 # ---------- Helper: AI Assistant Widget ----------
@@ -463,7 +465,13 @@ def show_ai_assistant():
                 st.rerun()
 
 # ---------- Navigation ----------
+prev_page = st.session_state.get("prev_page")
 page = st.radio("Navigation", ["About","Projects"], horizontal=True, label_visibility="collapsed")
+
+if prev_page != page:
+    st.session_state.chat_input = ""
+    st.session_state.chat_messages = []
+st.session_state.prev_page = page
 
 # ---------- About ----------
 if page == "About":
