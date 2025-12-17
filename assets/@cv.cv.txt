@@ -1,0 +1,42 @@
+CLAIRE NAMUSOKE
+STUDENT
+                    Email:   clairenamusoke1@gmail.com
+Address: Humboldt str1, Bremerhaven    
+Phone:  +4917626044083
+  Portfolio link:  website   
+PROFILE 
+Motivated student with a strong foundation in shipping practices and data analysis. Experienced in developing clear, insightful dashboards and managing data workflows efficiently. Proactive and enthusiastic in tackling challenges, applying analytical techniques to enhance both operational and strategic decision-making. Adept at translating complex data into practical insights that drive informed outcomes.
+EXPERIENCE (Working student)                                                                                                                                                      (Jan 2024-jul 2024)
+Blue Water    Breb   (Supply chain analyst)                                                                                                                                  Cuxhaven, Germany 
+* Supported the Logistics team with data integration, validation, and monitoring of supply chain systems. 
+* Collaborated with Agency staff to align analytics findings with day-to-day freight forwarding operations. 
+* Supported in management, planning, and optimization of organization processes.
+EDUCATION 
+Hochschule Bremen                                                                                                                                                                 Bremen, Germany
+* BA International Shipping and Chartering                                                                                                      (2023- to date)
+                 K. Garden Groove College                                                                                                                                                            Buddo, Uganda
+* Uganda Advanced Certificate of Education                                                                                                       (2016-2017)
+PERSONAL PROJECTS
+ Global Crude Oil Trade 
+* Cleaned and prepared raw data using python to ensure accuracy and structure for analysis. 
+* Conducted data analysis and developed an interactive dashboard using stream lit.
+*  Integrated OpenAI to provide enhanced insights and improve interpretability of the dashboard. 
+* Published the project on GitHub for version control and code documentation. 
+Covid 19 Dashboard
+* Used SQL to clean, query, and transform raw data into structured tables and prepare the data for analysis.
+* Used Dax to build custom measures and compute KPIs to enhance analytical depth of the report.
+* Ensured an efficient data flow to support data integration and visualization and created insightful reports using power Bi tools.
+ COURSES AND CERTIFICATIONS
+* Supply Chain management and Analytics                                                                                                                                            Coursera 
+* Introduction to Data Analytics                                                                                                                                                                    Coursera 
+* SQL                                                                                                                                                                                                                             Udemy 
+* Power Bi                                                                                                                                                                                                                    Udemy
+                     TECHNICAL SKILLS                                                                                                        SOFT SKILLS
+                     SQL                                                                                                                                          Analytical thinking 
+                     Python                                                                                                                                    Attention to details
+                     MS Office                                                                                                                               Ability to work in teams
+                     Git                                                                                                                                             Effective communication
+                     Power bi                                                                                                                                 Data Visualisation
+                                                                                                           LANGUAGES
+                                                                                                            Germany- B1
+                                                                                                            English -C1
