@@ -6,7 +6,7 @@ import json
 import base64
 from openai import OpenAI
 
-# Must be the first Streamlit command
+# ---------- PAGE CONFIG ----------
 st.set_page_config(page_title="Claire Namusoke — Portfolio", layout="wide")
 
 # ---------- CONFIG ----------
@@ -14,7 +14,7 @@ OPENAI_API_KEY = st.secrets.get("OPENAI_API_KEY")
 OPENAI_MODEL = st.secrets.get("OPENAI_MODEL", "gpt-4o-mini")  
 ELEVEN_API_KEY = st.secrets.get("ELEVEN_API_KEY") 
 ELEVEN_VOICE_ID = st.secrets.get("ELEVEN_VOICE_ID")  
-CV_FILEPATH = "assets/Claire_CV.pdf"
+CV_FILEPATH = "assets/@claire.cv.pdf"
 PROJECTS_FILE = "assets/projects.json"
 
 # ---------- STYLING ----------
@@ -49,10 +49,10 @@ def provide_cv_download():
         with open(CV_FILEPATH, "rb") as f:
             b = f.read()
             b64 = base64.b64encode(b).decode()
-            href = f'<a href="data:application/pdf;base64,{b64}" download="Claire_CV.pdf">Download CV (PDF)</a>'
+            href = f'<a href="data:application/pdf;base64,{b64}" download="@claire.cv.pdf">Download CV (PDF)</a>'
             st.markdown(href, unsafe_allow_html=True)
     else:
-        st.info("CV file not found in assets/Claire_CV.pdf")
+        st.info("CV file not found in assets/@claire.cv.pdf")
 
 def add_chat_message(role, text):
     if "messages" not in st.session_state:
@@ -137,8 +137,8 @@ def process_user_message():
     st.session_state.chat_messages.append({"role": "user", "content": user_msg})
     # Load context
     cv_text = ""
-    if os.path.exists("assets/cv.txt"):
-        with open("assets/cv.txt","r",encoding="utf-8", errors="ignore") as f:
+    if os.path.exists("assets/@claire.cv.txt"):
+        with open("assets/@claire.cv.txt","r",encoding="utf-8", errors="ignore") as f:
             cv_text = f.read()
     projects_text = "\n".join([f"{p['title']}: {p['description']}" for p in load_projects()])
     faq_text = ""
@@ -447,8 +447,8 @@ def show_ai_assistant():
                 else:
                     # Load context
                     cv_text = ""
-                    if os.path.exists("assets/cv.txt"):
-                        with open("assets/cv.txt","r",encoding="utf-8", errors="ignore") as f:
+                    if os.path.exists("assets/@claire.cv.txt"):
+                        with open("assets/@claire.cv.txt","r",encoding="utf-8", errors="ignore") as f:
                             cv_text = f.read()
                     projects_text = "\n".join([f"{p['title']}: {p['description']}" for p in load_projects()])
                     faq_text = ""
