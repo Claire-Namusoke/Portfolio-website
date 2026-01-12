@@ -1,0 +1,35 @@
+ABOUT ME 
+I am a student in my fourth semester, currently pursuing a B.A. in International shipping and chartering at Hochschule Bremen. I have theoretical experience in shipping and chartering practices with a focus on logistics and supply chain operations as well as hands on experience in data analysis. I am proactive and enthusiastic in tackling challenges, motivated to learn more and apply analytical and technical knowledge in real business environment to enhance both operational and strategic decision making.  
+ 
+WORK EXPERIENCE
+Administrative assistant: Afro Couture 2018-2021
+* Managed daily reception duties, client appointments, and customer communication,  ensuring smooth front-desk operations and positive client experience.
+* Handled basic accounting tasks such as cash handling, expense tracking, and record keeping, supporting accurate financial monitoring and day-to-day business control.
+* Provided administrative coordination across business operations, supporting scheduling, documentation, and time management to maintain efficient workflows.
+ 
+ PERSONAL PROJECTS: DATA ANALYSIS
+  Maven Market Dashboard: Maven Market Dataset 1997-1998 
+• Performed data preparation in Power Bi using power query including importing data, cleaning errors and blanks, join multiple tables into a single usable dataset to explore historical sales data from Maven Market, focusing on product categories and store locations from 1997 to 1998. 
+• Used Dax to build custom measures, compute and identify meaningful patterns related to product performance and store distribution. 
+• Created and published an insightful power bi report visualizing Quarter year performance, KPIs, Product and customer behavior, order quantity by store location providing actionable insights to support strategic decision making. 
+          
+Global Crude oil Trade Dashboard: Kegel Dataset 1995- 2021 
+• Imported, cleaned and prepared raw data using python, pandas to analysis the structure, scale, and evolution of crude petroleum trade. 
+• Conducted data analysis and developed a stream lit interactive dashboard using libraries linvolving Matplotlib, plotly to visualise trends overtime, relationship between variables, distribution of Trade values between countries. 
+• Integrated open Ai that understands natural language to help the user get enhanced insights about the report. 
+• Deployed the dashboard on stream-lit and published the full project on GitHub for version control and code documentation. 
+
+PROFFESSIONAL DEVELOPMENT COURSE
+Supply Chain & Management Analytics: Coursera 2024
+• Covered core supply chain concepts, including procurement, sourcing strategies, inventory management, and logistics performance measurement.
+• Applied data analytics techniques to supply chain datasets to identify trends, inefficiencies, and cost drivers.
+• Analyzed procurement-related KPIs such as lead time, cost performance, supplier    reliability, and demand variability.
+• Strengthened analytical thinking by translating quantitative insights into actionable recommendations relevant to logistics and freight operations.
+ 
+EDUCATION       
+Hochshule Bremen                                                                               Bremen, Germany                                          
+B.A International Shipping and Chartering                                       2024-to date
+ 
+K.Garden Groove College                                                                     Buddo, Uganda             
+Uganda Advanced Certificate of Education                                       2016-2017 
+
