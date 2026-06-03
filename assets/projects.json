@@ -1,6 +1,12 @@
 [
-  {
-    "title": "Shipping Impact on Climate and Sea Levels",
+  
+  {"title": "Vehicle Sales Dashboard",
+    "description": "Processed commercial vehicle data by standardising monetary values  and aligning sales volume with corresponding revenue rows to ensure accuracy. Conducted market-wide trend and growth analysis to evaluate revenue and sales volume patterns to support market planning",
+    "tools": ["Power BI", "DAX", "Data Visualization"],
+    "link": "https://app.powerbi.com/groups/me/reports/4e5bc050-e1da-4de5-9577-817182a5f04a/18238d30c32255e81829?experience=power-bi"
+  },
+
+  { "title": "Shipping Impact on Climate and Sea Levels",
     "description": "This project was an inspiration from my presentation in one of my course modules focused on understanding the impact of greenhouse gases emissions from human activities on climate and rising sea levels. Shipping alone accounts for approximately 3% of global greenhouse emissions where CO2 is used as the baseline for measuring the global warming potential of greenhouse gases due to its Global Warming Potential of 1 over all time horizons. Although the warming effect of CO2 per molecule is lower than that of gases like Methane, its significant atmospheric concentration and long atmospheric lifetime make it the primary driver of anthropogenic climate change. Hence the extended presence of CO2 in the atmosphere means that its emissions can influence the climate for centuries, highlighting the critical importance of addressing CO2 emissions within the transport sector to mitigate long-term climate impacts. Furthermore, I utilized real world data from different sources highlighting my skills in data integration.",
     "tools": ["Python", "Streamlit", "Pandas", "OpenAI"],
     "link": "https://claire-namusoke-climate-analysis-analysis-gzvybi.streamlit.app/"
@@ -29,4 +35,4 @@
     "tools": ["Power BI", "DAX", "Data Visualization"],
     "link": "https://app.powerbi.com/groups/me/reports/65ebd5ae-660a-4cb6-8324-4e46c3b10c16/f1149ff0aa97551b0709?experience=power-bi"
   }
-]
+     ]
