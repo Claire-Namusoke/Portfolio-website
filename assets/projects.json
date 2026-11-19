@@ -2,7 +2,7 @@
   
   {"title": "Vehicle Sales Dashboard",
     "description": "Processed commercial vehicle data by standardising monetary values  and aligning sales volume with corresponding revenue rows to ensure accuracy. Conducted market-wide trend and growth analysis to evaluate revenue and sales volume patterns to support market planning",
-    "tools": ["Power BI", "DAX", "Data Visualization"],
+    "tools": ["Power BI", "DAX", "Data Visualization", "Excel"],
     "link": "https://app.powerbi.com/groups/me/reports/4e5bc050-e1da-4de5-9577-817182a5f04a/18238d30c32255e81829?experience=power-bi"
   },
 
