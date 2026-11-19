@@ -1,10 +1,10 @@
-# app.py
-import streamlit as st
-import os
-import requests
-import json
-import base64
-from openai import OpenAI
+# app.py - Main entry point for the portfolio web app built with Streamlit
+import streamlit as st  # for building the web app
+import os  # for interacting with the operating system (e.g., checking file existence)
+import requests  # for making HTTP requests
+import json  # for handling JSON data
+import base64 # for encoding CV file for download
+from openai import OpenAI  # for OpenAI API interactions
 
 # ---------- PAGE CONFIG ----------
 st.set_page_config(page_title="Claire Namusoke — Portfolio", layout="wide")
@@ -475,7 +475,7 @@ st.session_state.prev_page = page
 
 # ---------- About ----------
 if page == "About":
-    st.header("Welcome to My Portfolio")
+    st.header("Welcome to My Portfolio 😊😊")
     # Create columns for image and text
     col1, col2 = st.columns([1, 3])
     with col1:
@@ -484,10 +484,15 @@ if page == "About":
         else:
             st.info("Profile image not found")
     with col2:
-        about = """Hi,  I am Claire, a data analytics enthusiast and International Shipping and chartering student at Hochschule Bremen, 
-             with practical experience in analyzing shipping data, environmental impacts, and 
-             global trade trends. I specialize in transforming complex datasets into actionable 
-             insights through SQL, Python, Power BI, and interactive dashboards, while integrating
+        about = """Hi, .
+            I am Claire Namusoke, an International Shipping and chartering student at Hochschule Bremen,
+              with an interest in sustainable shipping and logistics practises, data analytics and its 
+              applications in the shipping industry.
+             With practical experience in logistics operations, supplier coordination and analyzing shipping data,
+                and 
+         global trade trends.
+           I specialize in transforming complex datasets into actionable 
+             insights through SQL, Python, Power BI,Excel and interactive dashboards, while integrating
               AI for smarter analysis. Passionate about applying data to real-world shipping and
               Business environments to drive informed decision-making and sustainability initiatives.   
     """
@@ -548,6 +553,7 @@ if page == "About":
         <span class="skill-badge">⚡ Streamlit</span>
         <span class="skill-badge">📂 Git/GitHub</span>
         <span class="skill-badge">💼 MS Office</span>
+        <span class="skill-badge">🤖 OpenAI</span>
     </div>
     """, unsafe_allow_html=True)
     st.subheader("Contact")
@@ -578,4 +584,4 @@ elif page == "Projects":
     add_chatbot_icon()
 
 st.markdown("<hr>", unsafe_allow_html=True)
-st.caption("Made with Streamlit • Claire Namusoke")
+st.caption("Made with Streamlit by Claire Namusoke")
