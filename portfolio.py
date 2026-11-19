@@ -495,13 +495,15 @@ if page == "About":
              insights through SQL, Python, Power BI,Excel and interactive dashboards, while integrating
               AI for smarter analysis. Passionate about applying data to real-world shipping and
               Business environments to drive informed decision-making and sustainability initiatives.   
-    """
+    """ 
+        #CERTIFICATES
         st.write(about)
     st.markdown("""
     <div style='display: flex; gap: 30px; align-items: start;'>
         <div>
             <h3 style='margin-top: 0; margin-bottom: 16px;'>Certifications</h3>
             <p style='margin-top: 0; margin-bottom: 16px;'>Supply Chain Management and Analytics</p>
+            <p style='margin-top: 0; margin-bottom: 16px;'>Load securing</p>
             <p style='margin-top: 0; margin-bottom: 16px;'>Introduction to Data Analytics</p>
             <p style='margin-top: 0; margin-bottom: 16px;'>SQL & Databases</p>
             <p style='margin-top: 0; margin-bottom: 16px;'>Power BI</p>
@@ -509,6 +511,7 @@ if page == "About":
         <div>
             <h3 style='margin-top: 0; margin-bottom: 16px; opacity: 0;'>.</h3>
             <p style='margin-top: 0; margin-bottom: 16px;'>Coursera</p>
+            <p style='margin-top: 0; margin-bottom: 16px;'>Macco, Bremen</p>
             <p style='margin-top: 0; margin-bottom: 16px;'>Coursera</p>
             <p style='margin-top: 0; margin-bottom: 16px;'>Udemy</p>
             <p style='margin-top: 0; margin-bottom: 16px;'>Udemy</p>
@@ -517,12 +520,14 @@ if page == "About":
             <h3 style='margin-top: 0; margin-bottom: 16px;'>Interests</h3>
             <p style='margin-top: 0; margin-bottom: 16px;'>Data Analysis</p>
             <p style='margin-top: 0; margin-bottom: 16px;'>Logistics and Supply Chain</p>
+            <p style='margin-top: 0; margin-bottom: 16px;'>Shipping practises</p>
             <p style='margin-top: 0; margin-bottom: 16px;'>Maritime Analytics</p>
             <p style='margin-top: 0; margin-bottom: 16px;'>Chartering Practises</p>
         </div>
     </div>
     """, unsafe_allow_html=True)
     st.subheader("Data Skills")
+
     # Animated skill badges
     st.markdown("""
     <style>
