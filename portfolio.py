@@ -484,7 +484,7 @@ if page == "About":
         else:
             st.info("Profile image not found")
     with col2:
-        about = """Hi, .
+        about = """Hi,
             I am Claire Namusoke, an International Shipping and chartering student at Hochschule Bremen,
               with an interest in sustainable shipping and logistics practises, data analytics and its 
               applications in the shipping industry.
